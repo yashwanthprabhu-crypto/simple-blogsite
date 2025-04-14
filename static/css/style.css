@@ -1,0 +1,263 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --background-color: #f8f9fa;
+    --text-color: #2c3e50;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: var(--primary-color);
+    padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-title {
+    color: white;
+    font-size: 1.8rem;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 2rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: var(--secondary-color);
+}
+
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.post-card {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: transform 0.3s;
+}
+
+.post-card:hover {
+    transform: translateY(-2px);
+}
+
+.post-title {
+    color: var(--primary-color);
+    margin: 0 0 1rem 0;
+    font-size: 1.8rem;
+}
+
+.post-meta {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.post-image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.create-post-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+button[type="submit"] {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+
+/* Add these styles to your existing CSS */
+
+.blog-controls {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-box input {
+    padding: 0.5rem 1rem;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    width: 300px;
+    font-size: 1rem;
+}
+
+.view-controls button {
+    padding: 0.5rem 1rem;
+    margin-left: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    background: #eee;
+    cursor: pointer;
+}
+
+.view-controls button.active {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.post-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.stars {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.star {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #ddd;
+}
+
+.star.active {
+    color: #ffd700;
+}
+
+.favorite-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #ff4757;
+    padding: 0.25rem 0.5rem;
+}
+
+.favorite-btn.active {
+    color: #ff4757;
+}
+
+.rating-value {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Add at the end of your CSS file */
+.post-detail .post-card {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.post-detail .post-title {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.post-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.post-link:hover {
+    color: var(--secondary-color);
+}
+
+.post-navigation {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.back-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #eee;
+}
+
+.post-meta {
+    display: flex;
+    gap: 1rem;
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.post-detail .post-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-top: 2rem;
+}

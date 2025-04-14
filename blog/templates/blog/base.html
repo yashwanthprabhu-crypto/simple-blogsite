@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Blog</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .editor-toolbar {
+            padding: 10px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+        }
+        
+        .editor-toolbar button {
+            margin-right: 5px;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .editor-toolbar button:hover {
+            background: #f0f0f0;
+        }
+        
+        #content {
+            min-height: 300px;
+            border: 1px solid #ddd;
+            border-radius: 0 0 4px 4px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="{% url 'home' %}" class="site-title">Simple Blog</a>
+            <nav>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'create_post' %}">Create Post</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+    <script src="/static/js/editor-config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new SimpleEditor('#content');
+        });
+    </script>
+</body>
+</html>

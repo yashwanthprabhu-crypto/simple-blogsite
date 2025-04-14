@@ -1,0 +1,85 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="post-detail">
+    <article class="post-card detailed">
+        <h1 class="post-title">{{ post.title }}</h1>
+        <div class="post-meta">
+            <span class="author">By {{ post.author }}</span>
+            <span class="date">on {{ post.created_at|date }}</span>
+        </div>
+        
+        <div class="post-actions">
+            <div class="rating">
+                <span class="stars">
+                    {% for i in "12345" %}
+                        <span class="star" data-post-id="{{ post.id }}" data-rating="{{ forloop.counter }}">★</span>
+                    {% endfor %}
+                </span>
+                <span class="rating-value" id="rating-{{ post.id }}">0</span>
+            </div>
+            <button class="favorite-btn" onclick="toggleFavorite({{ post.id }}, '{{ post.title }}')" data-post-id="{{ post.id }}">
+                ♡
+            </button>
+        </div>
+
+        {% if post.image %}
+            <img src="data:image/jpeg;base64,{{ post.image }}" alt="{{ post.title }}" class="post-image">
+        {% endif %}
+        
+        <div class="post-content">
+            {{ post.content|safe }}
+        </div>
+        
+        <div class="post-navigation">
+            <a href="{% url 'home' %}" class="back-button">← Back to Posts</a>
+        </div>
+    </article>
+</div>
+
+<script>
+    // Initialize favorites
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
+    
+    function updateFavoriteButton() {
+        const btn = document.querySelector('.favorite-btn');
+        const postId = btn.dataset.postId;
+        if (favorites[postId]) {
+            btn.classList.add('active');
+            btn.textContent = '♥';
+        }
+    }
+
+    function toggleFavorite(postId, title) {
+        const btn = document.querySelector('.favorite-btn');
+        if (favorites[postId]) {
+            delete favorites[postId];
+            btn.classList.remove('active');
+            btn.textContent = '♡';
+        } else {
+            favorites[postId] = title;
+            btn.classList.add('active');
+            btn.textContent = '♥';
+        }
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
+
+    // Rating system
+    document.querySelectorAll('.star').forEach(star => {
+        star.addEventListener('click', function() {
+            const postId = this.dataset.postId;
+            const rating = this.dataset.rating;
+            const stars = this.parentElement.children;
+            
+            for (let i = 0; i < stars.length; i++) {
+                stars[i].classList.toggle('active', i < rating);
+            }
+            
+            document.getElementById(`rating-${postId}`).textContent = rating;
+        });
+    });
+
+    // Initialize on page load
+    updateFavoriteButton();
+</script>
+{% endblock %}

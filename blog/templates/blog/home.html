@@ -1,0 +1,124 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="blog-controls">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search blogs...">
+        </div>
+        <div class="view-controls">
+            <button onclick="toggleView('all')" class="active">All Posts</button>
+            <button onclick="toggleView('favorites')">Favorites</button>
+        </div>
+    </div>
+
+    <div id="posts-container">
+        {% for post in posts %}
+            <!-- In your post-card article, wrap the title with a link -->
+            <article class="post-card" data-title="{{ post.title|lower }}">
+                <h2 class="post-title">
+                    <a href="{% url 'post_detail' post.id %}" class="post-link">{{ post.title }}</a>
+                </h2>
+                <div class="post-meta">By {{ post.author }} on {{ post.created_at|date }}</div>
+                
+                <div class="post-actions">
+                    <div class="rating">
+                        <span class="stars">
+                            {% for i in "12345" %}
+                                <span class="star" data-post-id="{{ post.id }}" data-rating="{{ forloop.counter }}">★</span>
+                            {% endfor %}
+                        </span>
+                        <span class="rating-value" id="rating-{{ post.id }}">0</span>
+                    </div>
+                    <button class="favorite-btn" onclick="toggleFavorite({{ post.id }}, '{{ post.title }}')" data-post-id="{{ post.id }}">
+                        ♡
+                    </button>
+                </div>
+
+                {% if post.image %}
+                    <img src="data:image/jpeg;base64,{{ post.image }}" alt="{{ post.title }}" class="post-image">
+                {% endif %}
+                <div class="post-content">{{ post.content|safe }}</div>
+            </article>
+        {% empty %}
+            <div class="post-card">
+                <p>No posts yet! Be the first to create one.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Initialize favorites from localStorage
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
+        
+        // Update favorite buttons state
+        function updateFavoriteButtons() {
+            document.querySelectorAll('.favorite-btn').forEach(btn => {
+                const postId = btn.dataset.postId;
+                if (favorites[postId]) {
+                    btn.classList.add('active');
+                    btn.textContent = '♥';
+                }
+            });
+        }
+
+        // Toggle favorite status
+        function toggleFavorite(postId, title) {
+            const btn = document.querySelector(`.favorite-btn[data-post-id="${postId}"]`);
+            if (favorites[postId]) {
+                delete favorites[postId];
+                btn.classList.remove('active');
+                btn.textContent = '♡';
+            } else {
+                favorites[postId] = title;
+                btn.classList.add('active');
+                btn.textContent = '♥';
+            }
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            document.querySelectorAll('.post-card').forEach(post => {
+                const title = post.dataset.title;
+                post.style.display = title.includes(searchTerm) ? 'block' : 'none';
+            });
+        });
+
+        // View toggle functionality
+        function toggleView(view) {
+            const buttons = document.querySelectorAll('.view-controls button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.querySelectorAll('.post-card').forEach(post => {
+                const postId = post.querySelector('.favorite-btn').dataset.postId;
+                if (view === 'favorites') {
+                    post.style.display = favorites[postId] ? 'block' : 'none';
+                } else {
+                    post.style.display = 'block';
+                }
+            });
+        }
+
+        // Rating system
+        document.querySelectorAll('.star').forEach(star => {
+            star.addEventListener('click', function() {
+                const postId = this.dataset.postId;
+                const rating = this.dataset.rating;
+                const stars = this.parentElement.children;
+                
+                // Update visual state
+                for (let i = 0; i < stars.length; i++) {
+                    stars[i].classList.toggle('active', i < rating);
+                }
+                
+                // Update rating display
+                document.getElementById(`rating-${postId}`).textContent = rating;
+            });
+        });
+
+        // Initialize favorites on page load
+        updateFavoriteButtons();
+    </script>
+{% endblock %}

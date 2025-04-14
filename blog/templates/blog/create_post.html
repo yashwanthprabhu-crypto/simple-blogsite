@@ -1,0 +1,31 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="create-post-form">
+        <h2>Create New Post</h2>
+        <form method="post" enctype="multipart/form-data" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="content">Content:</label>
+                <div id="content" contenteditable="true"></div>
+                <input type="hidden" name="content" id="hidden-content">
+            </div>
+            <div class="form-group">
+                <label for="image">Image:</label>
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
+            <button type="submit">Create Post</button>
+        </form>
+    </div>
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            document.getElementById('hidden-content').value = 
+                document.getElementById('content').innerHTML;
+            event.target.submit();
+        }
+    </script>
+{% endblock %}
